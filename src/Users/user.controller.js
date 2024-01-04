@@ -14,7 +14,7 @@ class UserController {
     const { manageAsyncOps, manageApplicationErrors } = req.context
 
     const validation = validateUser.validateUserSignUp(req.body)
-    const verificationPin = Math.floor(100000 +Math.random() * 900000);
+    const verificationPin = Math.floor(10000 +Math.random() * 90000);
 
     if (!validation.success) return next(manageApplicationErrors({ message: validation.msg, statusCode: BAD_REQUEST}))
 
@@ -64,7 +64,7 @@ class UserController {
     await sendVericationEmail({
       userName:response.dataValues.userName, 
       email:response.dataValues.email, 
-      verificationToken:verificationPin
+      verificationToken:response.dataValues.verification_Token
   }); 
 
 
@@ -80,7 +80,7 @@ class UserController {
 
   resendPin = async (req, res, next) => {
     const { manageAsyncOps, manageApplicationErrors } = req.context
-    const verificationPin = Math.floor(100000 +Math.random() * 900000);
+    const verificationPin = Math.floor(10000 +Math.random() * 90000);
     const userId = req.user.id
 
     const [errorUserExist, userExists] = await manageAsyncOps(userService.getSingleUserByParams({id:userId}))
@@ -99,7 +99,7 @@ class UserController {
     await sendVericationEmail({
       userName:req.user.userName, 
       email:req.user.email, 
-      verificationToken:verificationPin
+      verificationToken:updatedUser.verification_Token
   }); 
 
     res.status(CREATED).json({
