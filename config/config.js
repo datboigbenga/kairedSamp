@@ -9,6 +9,9 @@ const configuration = {
     host: process.env.DB_HOST,
     port:process.env.DB_PORT,
     dialect: "postgres",
+    dialectOptions: {
+      ssl: true     
+    }
   },
   test: {
     username: process.env.TEST_DB_USERNAME,
